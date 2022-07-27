@@ -9,19 +9,23 @@ import Events from "./pages/Events";
 import Calendars from "./pages/Calendars";
 
 import "./App.css";
+import Navbar from "./components/Navbar";
 
 function App() {
     return (
         <>
             <Router>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/calendar" element={<Calendars />} />
-                    <Route path="/events" element={<Events />} />
-                </Routes>
+                <Navbar />
+                <div className="container mx-auto">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/users" element={<Users />} />
+                        <Route path="/calendar" element={<Calendars />} />
+                        <Route path="/events" element={<Events />} />
+                    </Routes>
+                </div>
             </Router>
         </>
     );
