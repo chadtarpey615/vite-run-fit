@@ -43,10 +43,14 @@ const Home = () => {
                 <div className="flex flex-row mt-8 md:w-1/2 justify-center   ">
                     <Animated animationIn="fadeInDown">
                         <button className="mx-3 w-28 border-4 rounded-full hover:bg-gray-400">
-                            sign-up
+                            <Link className="text-white" to="/signup">
+                                Sign Up
+                            </Link>
                         </button>
                         <button className="mx-3  w-28 border-4 rounded-full">
-                            login
+                            <Link className="text-white" to="/login">
+                                LogIn
+                            </Link>
                         </button>
                     </Animated>
                 </div>
