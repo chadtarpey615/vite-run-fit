@@ -5,7 +5,7 @@ const app = express()
 const path = require("path");
 // const { connect } = require("http2");
 
-const PORT = process.env.PORT || "3002"
+const PORT = process.env.PORT || "3000"
 
 // connect to database
 connectDB();
@@ -16,6 +16,7 @@ app.use(express.json({ extended: false }))
 
 
 // routes go here 
+app.use("/api/users", require("./routes/api/users"))
 
 
 

@@ -14,7 +14,7 @@ const initialState = {
 }
 
 export const registerUser = createAsyncThunk('user/registerUser', async (user) => {
-    console.log(user)
+    console.log("regitser hit in auth slice", user)
 
     try
     {

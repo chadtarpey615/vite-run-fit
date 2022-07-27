@@ -1,12 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
-// const User = require('../models/user');
+// const config = require('config');
+const User = require('../models/user');
 const Mongoose = require('mongoose');
 
 exports.createUser = async (req, res) => {
-    console.log("User routes hit")
-    const { name, email, password } = req.body;
+    console.log("User controller hit")
+    const { username, email, password } = req.body;
 
     try
     {
