@@ -45,3 +45,37 @@ exports.createUser = async (req, res) => {
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: '30d' });
 }
+
+
+exports.userLogin = async (req, res) => {
+    console.log("User controller hit")
+    const { email, password } = req.body;
+
+    try
+    {
+        const user = await User.findOne({ email });
+
+        if (!user)
+        {
+            return res.status(400).json({ msg: 'User does not exist' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch)
+        {
+            return res.status(400).json({ msg: 'Invalid credentials' });
+        }
+
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            token: generateToken(user._id)
+        })
+    } catch (error)
+    {
+        console.log(error.message);
+        res.status(500).send('Server Error');
+    }
+}

@@ -25,6 +25,20 @@ export const registerUser = createAsyncThunk('user/registerUser', async (user) =
     }
 })
 
+export const loginUser = createAsyncThunk('user/loginUser', async (user) => {
+    console.log("login hit in auth slice", user)
+
+    try
+    {
+        return await authService.loginUser(user)
+    }
+    catch (error)
+    {
+        console.log(error)
+    }
+
+})
+
 
 
 
@@ -47,8 +61,23 @@ export const userAuthSlice = createSlice({
                 state.isLoading = false
                 state.userError = true
                 state.userMessage = action.error.message
+            }),
+            builder.addCase(loginUser.pending, (state, action) => {
+                state.isLoading = true
+            }),
+            builder.addCase(loginUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload
+                state.userSuccess = true
+                state.userMessage = "User logged in successfully"
+            }),
+            builder.addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false
+                state.userError = true
+                state.userMessage = action.error.message
             })
     }
 })
+
 
 export default userAuthSlice.reducer
