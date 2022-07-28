@@ -14,12 +14,12 @@ const Navbar = () => {
     const dispatch = useDispatch();
 
     // for future when user has friends to load
-    // useEffect(() => {
-    //     if (user)
-    //     {
-    //         dispatch(getUserFriends(user._id))
-    //     }
-    // },[])
+    useEffect(() => {
+        if (user) {
+            console.log(user);
+            // dispatch(getUserFriends(user._id))
+        }
+    }, []);
 
     const toggleMobile = () => {
         setMobile(!mobile);
