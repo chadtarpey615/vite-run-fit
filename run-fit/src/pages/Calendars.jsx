@@ -64,11 +64,11 @@ const Calendars = () => {
                         <h1 className="text-white">Add run event form </h1>
 
                         <div className="flex ">
-                            <label htmlFor="name"> </label>
+                            <label htmlFor="title"> </label>
                             <TextField
                                 id="filled-required"
                                 label="Add Event Name "
-                                name="name"
+                                name="title"
                                 variant="filled"
                                 onChange={(e) => onChange(e)}
                             />

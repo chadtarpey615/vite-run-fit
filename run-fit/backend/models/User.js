@@ -19,7 +19,15 @@ const userSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
-    }
+    },
+
+    events: [
+        {
+            type: mongoose.Types.ObjectId,
+            required: true,
+            ref: "Event"
+        }
+    ],
 })
 
 

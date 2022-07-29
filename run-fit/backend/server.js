@@ -17,6 +17,7 @@ app.use(express.json({ extended: false }))
 
 // routes go here 
 app.use("/api/users", require("./routes/api/users"))
+app.use("/api/events", require("./routes/api/events"))
 
 
 

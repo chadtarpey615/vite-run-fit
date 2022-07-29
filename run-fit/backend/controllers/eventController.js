@@ -38,12 +38,12 @@ exports.createEvent = async (req, res) => {
 
 
 
-    const session = await Mongoose.startSession()
-    session.startTransaction()
+    const sess = await Mongoose.startSession()
+    sess.startTransaction()
     await event.save({ session: sess })
     findUser.events.push(event)
     await findUser.save({ session: sess })
-    await session.commitTransaction()
+    await sess.commitTransaction()
 }
 
 exports.getAllEvents = async (req, res) => {

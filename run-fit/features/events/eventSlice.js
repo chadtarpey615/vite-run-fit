@@ -23,6 +23,7 @@ export const getEvents = createAsyncThunk('events/all', async (data) => {
 })
 
 export const createEvent = createAsyncThunk('events/create', async (data, thunkAPI) => {
+    console.log("hiiitttt slice")
     try
     {
         const token = thunkAPI.getState().user.user.token
