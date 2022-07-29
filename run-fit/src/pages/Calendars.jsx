@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
+import { createEvent, getEvents } from "../../features/events/eventSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import Spinner from "../components/Spinner";
 
 const Calendars = () => {
+    const { user, isLoading } = useSelector((state) => state.user);
+    const [selectedDay, setSelectedDay] = useState(null);
+    const [eventData, setEventData] = useState({
+        title: "",
+        distance: null,
+    });
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getEvents());
+    }, [getEvents]);
+
+    const onChange = (e) =>
+        setEventData({ ...eventData, [e.target.name]: e.target.value });
+
+    const enterEventHandler = async (e) => {
+        e.preventDefault();
+
+        if (!user) {
+            alert("Please log in to create an event");
+        }
+
+        const newEvent = {
+            user: user._id,
+            ...eventData,
+            date: selectedDay,
+            creator: user.username,
+        };
+
+        dispatch(createEvent(newEvent));
+    };
+
+    if (isLoading) {
+        return <Spinner />;
+    }
+
     return (
         <>
             <div className="flex flex-row justify-center">
@@ -14,12 +54,12 @@ const Calendars = () => {
             </div>
             <div className="flex flex-col md:flex-row justify-center md:justify-around ">
                 <div className="flex ">
-                    <DayPicker />
+                    <DayPicker onDayClick={(e) => setSelectedDay(e)} />
                 </div>
                 <div className="flex justify-center ">
                     <form
                         className="run-form sm:mt-5 md:mt-20"
-                        // onSubmit={enterEventHandler}
+                        onSubmit={enterEventHandler}
                     >
                         <h1 className="text-white">Add run event form </h1>
 
@@ -30,17 +70,19 @@ const Calendars = () => {
                                 label="Add Event Name "
                                 name="name"
                                 variant="filled"
-                                // onChange={(e) => onChange(e)}
+                                onChange={(e) => onChange(e)}
                             />
                         </div>
                         <div className="flex">
                             <label htmlFor="date"> </label>
                             <TextField
                                 id="filled-basic"
-                                // label={`${selectDay}`}
+                                label={`${selectedDay}`}
                                 name="date"
                                 variant="filled"
-                                // onMouseEnter={(e) => setSelectDay(selectDay)}
+                                onMouseEnter={(e) =>
+                                    setSelectedDay(selectedDay)
+                                }
                             />
                         </div>
                         <div>
@@ -50,7 +92,7 @@ const Calendars = () => {
                                 label="Add Event Total Distance "
                                 name="distance"
                                 variant="filled"
-                                // onChange={(e) => onChange(e)}
+                                onChange={(e) => onChange(e)}
                             />
                         </div>
                         <div className="mt-2">
