@@ -79,3 +79,18 @@ exports.userLogin = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+
+
+exports.getAllUsers = async (req, res) => {
+    console.log("User controller hit")
+    try
+    {
+        const users = await User.find();
+
+        res.status(200).json(users);
+    } catch (error)
+    {
+        console.log(error.message);
+        res.status(500).send('Server Error');
+    }
+}

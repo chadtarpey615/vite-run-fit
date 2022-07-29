@@ -26,10 +26,17 @@ const loginUser = async (userData) => {
 const logoutUser = async () => localStorage.removeItem("user");
 
 
+const getAllUsers = async () => {
+    const response = await axios.get(`${API_URL}/allUsers`);
+    return response.data;
+}
+
+
 const authService = {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getAllUsers
 }
 
 export default authService;
