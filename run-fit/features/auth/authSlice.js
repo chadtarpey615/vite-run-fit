@@ -51,61 +51,66 @@ export const getUsers = createAsyncThunk('user/getUsers', async () => {
         console.log(error)
     }
 
+})
 
 
 
 
-    export const userAuthSlice = createSlice({
-        name: "user",
-        initialState,
-        reducers: {},
-        extraReducers: (builder) => {
-            builder.addCase(registerUser.pending, (state, action) => {
+
+export const userAuthSlice = createSlice({
+    name: "user",
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(registerUser.pending, (state, action) => {
+            state.isLoading = true
+        }),
+            builder.addCase(registerUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload
+                state.userSuccess = true
+                state.userMessage = "User created successfully"
+            }),
+            builder.addCase(registerUser.rejected, (state, action) => {
+                state.isLoading = false
+                state.userError = true
+                state.userMessage = action.error.message
+            }),
+            builder.addCase(loginUser.pending, (state, action) => {
                 state.isLoading = true
             }),
-                builder.addCase(registerUser.fulfilled, (state, action) => {
-                    state.isLoading = false
-                    state.user = action.payload
-                    state.userSuccess = true
-                    state.userMessage = "User created successfully"
-                }),
-                builder.addCase(registerUser.rejected, (state, action) => {
-                    state.isLoading = false
-                    state.userError = true
-                    state.userMessage = action.error.message
-                }),
-                builder.addCase(loginUser.pending, (state, action) => {
-                    state.isLoading = true
-                }),
-                builder.addCase(loginUser.fulfilled, (state, action) => {
-                    state.isLoading = false
-                    state.user = action.payload
-                    state.userSuccess = true
-                    state.userMessage = "User logged in successfully"
-                }),
-                builder.addCase(loginUser.rejected, (state, action) => {
-                    state.isLoading = false
-                    state.userError = true
-                    state.userMessage = action.error.message
-                }),
+            builder.addCase(loginUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload
+                state.userSuccess = true
+                state.userMessage = "User logged in successfully"
+            }),
+            builder.addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false
+                state.userError = true
+                state.userMessage = action.error.message
+            }),
 
-                builder.addCase(getUsers.pending, (state, action) => {
-                    state.isLoading = true
-                }
-                ),
-                builder.addCase(getUsers.fulfilled, (state, action) => {
-                    state.isLoading = false
-                    state.users = action.payload
-                }
-                ),
-                builder.addCase(getUsers.rejected, (state, action) => {
-                    state.isLoading = false
-                    state.userError = true
-                    state.userMessage = action.error.message
-                }
-                )
-        }
-    })
+            builder.addCase(getUsers.pending, (state, action) => {
+                state.isLoading = true
+            }
+            ),
+            builder.addCase(getUsers.fulfilled, (state, action) => {
+                console.log("get user case", state)
+                state.isLoading = false
+                state.users = action.payload
+            }
+            ),
+            builder.addCase(getUsers.rejected, (state, action) => {
+                state.isLoading = false
+                state.userError = true
+                state.userMessage = action.error.message
+            }
+            )
+    }
+
+})
 
 
-    export default userAuthSlice.reducer
+
+export default userAuthSlice.reducer

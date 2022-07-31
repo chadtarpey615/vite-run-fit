@@ -5,7 +5,7 @@ const app = express()
 const path = require("path");
 // const { connect } = require("http2");
 
-const PORT = process.env.PORT || "3000"
+const PORT = process.env.PORT || "3001"
 
 // connect to database
 connectDB();
@@ -14,6 +14,13 @@ connectDB();
 app.use(express.json())
 app.use(express.json({ extended: false }))
 
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+} // end of middleware
+)
 
 // routes go here 
 app.use("/api/users", require("./routes/api/users"))

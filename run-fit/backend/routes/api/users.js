@@ -7,6 +7,6 @@ router.post("/", createUser, () => console.log("routes file hit"));
 
 router.post("/login", userLogin);
 
-router.get("/allUsers", getAllUsers)
+router.get("/users", getAllUsers, () => console.log("user route get users hit"))
 
 module.exports = router;

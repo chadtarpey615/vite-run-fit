@@ -82,7 +82,7 @@ exports.userLogin = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res) => {
-    console.log("User controller hit")
+    console.log("User controller hit get all users")
     try
     {
         const users = await User.find();

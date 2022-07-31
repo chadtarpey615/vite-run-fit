@@ -7,7 +7,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "server": "nodemon backend/server.js",
-        "start": "concurrently \"npm run dev\" \"npm run server \""
+        "start": "concurrently 'vite' 'nodemon backend/server.js' "
     },
     "dependencies": {
         "@emotion/react": "^11.7.1",
