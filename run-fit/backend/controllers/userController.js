@@ -85,8 +85,8 @@ exports.getAllUsers = async (req, res) => {
     console.log("User controller hit get all users")
     try
     {
-        const users = await User.find();
-
+        const users = await User.find({});
+        console.log(users)
         res.status(200).json(users);
     } catch (error)
     {
