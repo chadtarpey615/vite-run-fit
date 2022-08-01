@@ -3,10 +3,17 @@ const Event = require('../models/event');
 const User = require('../models/user');
 
 
+
+exports.getAllEvents = async (req, res) => {
+    let events
+    events = await Event.find({})
+    res.json(events)
+}
+
+
 exports.createEvent = async (req, res) => {
     console.log("Event controller hit")
     const { user, title, date, distance, creator } = req.body;
-
 
     const eventExist = await Event.findOne({ title });
 
@@ -26,7 +33,6 @@ exports.createEvent = async (req, res) => {
     })
 
     let findUser
-
     try
     {
         findUser = await User.findById(user)
@@ -34,8 +40,6 @@ exports.createEvent = async (req, res) => {
     {
         console.log(error.message)
     }
-
-
 
 
     const sess = await Mongoose.startSession()
@@ -46,15 +50,42 @@ exports.createEvent = async (req, res) => {
     await sess.commitTransaction()
 }
 
-exports.getAllEvents = async (req, res) => {
-    // let events
-    await Event.find({}, (err, events) => {
-        if (err)
-        {
-            console.log(err)
-        } else
-        {
-            res.json(events)
-        }
-    })
+
+exports.deleteEvent = async (req, res) => {
+    const eventId = req.params.id
+
+    let event
+    try
+    {
+        event = await Event.findById(eventId).populate('user')
+        event.delete()
+    } catch (error)
+    {
+        console.log(error.message)
+    }
+
+
+    if (!event)
+    {
+        console.log("Event not found")
+    }
+
+    try
+    {
+        const sess = await Mongoose.startSession()
+        sess.startTransaction()
+        await event.remove({ session: sess })
+        event.user.pull(event)
+        await event.user.save({ session: sess })
+        await sess.commitTransaction()
+    } catch (error)
+    {
+        console.log(error.message)
+    }
+
+    res.status(200).json({ msg: 'Event deleted' })
+
 }
+
+
+

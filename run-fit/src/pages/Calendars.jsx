@@ -19,7 +19,7 @@ const Calendars = () => {
 
     useEffect(() => {
         dispatch(getEvents());
-    }, [getEvents]);
+    }, [dispatch]);
 
     const onChange = (e) =>
         setEventData({ ...eventData, [e.target.name]: e.target.value });

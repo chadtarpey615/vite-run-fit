@@ -4,6 +4,8 @@ import { getUsers } from "../../features/auth/authSlice";
 import Spinner from "../components/Spinner";
 import Card from "../components/Card";
 import image from "..//images/avatar.jpeg";
+import PeopleIcon from "@mui/icons-material/People";
+
 const Users = () => {
     const { user, users, isLoading } = useSelector((state) => state.user);
     const dispatch = useDispatch();
@@ -51,6 +53,7 @@ const Users = () => {
                                         </p>
                                         {/* <p className="text-white">Friends: {data.friends.length}</p> */}
                                         <button className="text-white">
+                                            <PeopleIcon />
                                             Add Friends
                                         </button>
                                     </div>

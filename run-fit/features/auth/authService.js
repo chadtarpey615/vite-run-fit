@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/users/";
+const API_URL = "http://localhost:3003/api/users/";
 
 const registerUser = async (userData) => {
     console.log("service", API_URL)
@@ -28,7 +28,7 @@ const logoutUser = async () => localStorage.removeItem("user");
 
 const getAllUsers = async () => {
     const response = await axios.get(`${API_URL}/users`);
-    console.log("response", response)
+    // console.log("response", response)
     return response.data;
 }
 

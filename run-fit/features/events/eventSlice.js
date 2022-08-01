@@ -11,14 +11,14 @@ const initialState = {
     message: "",
 }
 
-export const getEvents = createAsyncThunk('events/all', async (data) => {
+export const getEvents = createAsyncThunk("events/all", async (data) => {
+
     try
     {
-        const response = await eventService.getEvents()
-        return response.data
+        return await eventService.getEvents()
     } catch (error)
     {
-        console.log(error)
+
     }
 })
 
@@ -35,26 +35,41 @@ export const createEvent = createAsyncThunk('events/create', async (data, thunkA
 })
 
 
+export const deleteEvent = createAsyncThunk('events/delete', async (id, thunkAPI) => {
+    try
+    {
+        const token = thunkAPI.getState().user.user.token
+        return await eventService.deleteEvent(id, token)
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+}
+)
+
+
 export const eventSlice = createSlice({
-    name: 'events',
+    name: "events",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getEvents.pending, (state, action) => {
+        builder.addCase(getEvents.pending, (state) => {
             state.isLoading = true
         }),
             builder.addCase(getEvents.fulfilled, (state, action) => {
                 state.isLoading = false
+                state.isSuccess = true
                 state.events = action.payload
-            }),
-            builder.addCase(getEvents.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.error.message
-            }),
-            builder.addCase(createEvent.pending, (state, action) => {
-                state.isLoading = true
-            }),
+            })
+        builder.addCase(getEvents.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.error.message
+        })
+        builder.addCase(createEvent.pending, (state, action) => {
+            state.isLoading = true
+        }),
             builder.addCase(createEvent.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
@@ -64,7 +79,24 @@ export const eventSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.message = action.error.message
-            })
+            }),
+            builder.addCase(deleteEvent.pending, (state, action) => {
+                state.isLoading = true
+            }),
+            builder.addCase(deleteEvent.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.message = "Event deleted successfully"
+            }
+            ),
+            builder.addCase(deleteEvent.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.error.message
+            }
+            )
+
+
     }
 })
 
