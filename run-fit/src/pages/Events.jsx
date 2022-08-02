@@ -6,7 +6,8 @@ const Events = () => {
     const { events, isLoading } = useSelector((state) => state.events || {});
     const dispatch = useDispatch();
 
-    const removeEvent = async (id) => {
+    const removeEvent = async (e, id) => {
+        console.log("ididididid", id);
         await dispatch(deleteEvent(id));
     };
 

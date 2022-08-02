@@ -1,0 +1,42 @@
+/* .rdp {
+    display: grid;
+    background: linear-gradient(to right, #0d386d, #186baf);
+    grid-template-columns: repeat(2, 1fr);
+    height: 50vh;
+    width: 60vw;
+    margin: 20px 30px;
+}
+
+.rdp-tbody {
+    height: 100vh;
+    width: 60vw;
+    margin: 20px 30px;
+    color: rgb(46, 27, 27);
+} */
+
+/* .DayPicker-Day {
+    border: 2px solid rgb(92, 86, 86);
+} */
+
+/* .DayPickerInput-Overlay {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+
+    background: black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+} */
+
+.run-form input {
+    margin: auto;
+    width: 30vw;
+    height: 4vh;
+    border-radius: 10px;
+}
+.run-form button {
+    margin-top: 12px;
+    margin-right: 10px;
+    width: 20vw;
+    height: 5vh;
+    border-radius: 10px;
+}

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import Spinner from "../components/Spinner";
-
+import "../styles/calendar.css";
 const Calendars = () => {
     const { user, isLoading } = useSelector((state) => state.user);
     const [selectedDay, setSelectedDay] = useState(null);
@@ -58,7 +58,7 @@ const Calendars = () => {
                 </div>
                 <div className="flex justify-center ">
                     <form
-                        className="run-form sm:mt-5 md:mt-20"
+                        className="run-form sm:mt-5 md:mx-10"
                         onSubmit={enterEventHandler}
                     >
                         <h1 className="text-white">Add run event form </h1>

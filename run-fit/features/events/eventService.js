@@ -26,6 +26,7 @@ const createEvent = async (eventData, token) => {
 
 
 const deleteEvent = async (id, token) => {
+    console.log("********", id)
     try 
     {
         const response = await axios.get(`${API_URL}${id}`)

@@ -1,9 +1,10 @@
 import { DirectionsRun, SettingsPowerRounded } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "./Card";
 
-const RunEvents = ({ event, deleteEvent }) => {
+const RunEvents = ({ event, removeEvent }) => {
     const { user } = useSelector((state) => state.user);
     const [open, setOpen] = useState(false);
     const [updateEventData, setUpdataEventData] = useState({
@@ -58,6 +59,25 @@ const RunEvents = ({ event, deleteEvent }) => {
                 {/* map comments here in the future  */}
 
                 <div className="card-btn flex justify-center"></div>
+            </div>
+
+            <div className="card-btn flex justify-center ">
+                {user._id === event.user ? (
+                    <button
+                        className=" hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                        onClick={(e) => removeEvent(e, _id)}
+                    >
+                        Delete Event
+                    </button>
+                ) : (
+                    <button
+                        className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                        disabled
+                        onClick={(e) => removeEvent(e, _id)}
+                    >
+                        Not Authorized to Delete
+                    </button>
+                )}
             </div>
         </Card>
     );

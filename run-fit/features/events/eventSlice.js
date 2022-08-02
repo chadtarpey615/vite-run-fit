@@ -36,6 +36,7 @@ export const createEvent = createAsyncThunk('events/create', async (data, thunkA
 
 
 export const deleteEvent = createAsyncThunk('events/delete', async (id, thunkAPI) => {
+    console.log("********", id)
     try
     {
         const token = thunkAPI.getState().user.user.token

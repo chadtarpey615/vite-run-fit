@@ -53,11 +53,11 @@ exports.createEvent = async (req, res) => {
 
 exports.deleteEvent = async (req, res) => {
     const eventId = req.params.id
-
     let event
     try
     {
         event = await Event.findById(eventId).populate('user')
+        console.log("delete dddddd", event)
         event.delete()
     } catch (error)
     {
@@ -75,7 +75,7 @@ exports.deleteEvent = async (req, res) => {
         const sess = await Mongoose.startSession()
         sess.startTransaction()
         await event.remove({ session: sess })
-        event.user.pull(event)
+        event.user.events.pull(event)
         await event.user.save({ session: sess })
         await sess.commitTransaction()
     } catch (error)
