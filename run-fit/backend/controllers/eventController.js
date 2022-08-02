@@ -87,5 +87,36 @@ exports.deleteEvent = async (req, res) => {
 
 }
 
+exports.updateEvent = async (req, res) => {
+    const eventId = req.params.id
+    const { title, distance, date } = req.body
+    let event
+
+    try
+    {
+        event = await Event.findById(eventId)
+    } catch (error)
+    {
+        console.log(error.message)
+    }
+
+
+    event.title = title
+    event.distance = distance
+    event.date = date
+
+    try
+    {
+        await event.save()
+    } catch (error)
+    {
+        console.log(error.message)
+    }
+
+}
+
+
+
+
 
 

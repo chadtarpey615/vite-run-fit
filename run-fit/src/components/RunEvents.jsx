@@ -1,8 +1,14 @@
 import { DirectionsRun, SettingsPowerRounded } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Stack from "@mui/material/Stack";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "./Card";
+import { userUpdateEvent } from "../../features/events/eventSlice";
 
 const RunEvents = ({ event, removeEvent }) => {
     const { user } = useSelector((state) => state.user);
@@ -29,20 +35,33 @@ const RunEvents = ({ event, removeEvent }) => {
     const updatedEvent = async (id) => {
         if (!user) {
             alert("Please log in to update an event");
-        }
-        const eventUpdateInfo = {
-            id: id,
-            user: user._id,
-            ...updateEventData,
-            creator: user.username,
-        };
+        } else {
+            const eventUpdateInfo = {
+                id: id,
+                user: user._id,
+                ...updateEventData,
+                creator: user.username,
+            };
 
-        if (eventUpdateInfo) {
-            await dispatch(updateEvent(eventUpdateInfo));
+            if (eventUpdateInfo) {
+                dispatch(userUpdateEvent(eventUpdateInfo));
+            }
         }
     };
 
     const { title, date, distance, _id, creator } = event;
+
+    const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "background.paper",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+    };
 
     return (
         <Card>
@@ -77,6 +96,95 @@ const RunEvents = ({ event, removeEvent }) => {
                     >
                         Not Authorized to Delete
                     </button>
+                )}
+
+                {user._id === event.user && (
+                    <button
+                        className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                        onClick={(e) => handleOpen(_id)}
+                    >
+                        Update Event
+                    </button>
+                )}
+
+                {open ? (
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Stack spacing={2}>
+                                <TextField
+                                    id="filled-basic"
+                                    label="Update Title"
+                                    variant="filled"
+                                    name="name"
+                                    onChange={(e) => onChange(e)}
+                                />
+                                <TextField
+                                    id="filled-basic"
+                                    label="Update Date"
+                                    variant="filled"
+                                    name="date"
+                                    onChange={(e) => onChange(e)}
+                                />
+                                <TextField
+                                    id="filled-basic"
+                                    label="Update Distance"
+                                    variant="filled"
+                                    name="distance"
+                                    onChange={(e) => onChange(e)}
+                                />
+                                <Button
+                                    onClick={() => updatedEvent(_id)}
+                                    variant="outlined"
+                                >
+                                    Update
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </Modal>
+                ) : (
+                    <Modal
+                    // open={openComment}
+                    // onClose={handleCommentClose}
+                    // aria-labelledby="modal-modal-title"
+                    // aria-describedby="modal-modal-description"
+                    >
+                        {/* <Box sx={style}>
+                            <Stack spacing={2}>
+                                <h3>Let's add a comment</h3>
+
+                                <TextField
+                                    id="filled-basic"
+                                    label="Email"
+                                    variant="filled"
+                                    name="username"
+                                    onChange={(e) =>
+                                        setCommentEmail(e.target.value)
+                                    }
+                                />
+                                <TextField
+                                    id="filled-basic"
+                                    label="Add Comment"
+                                    variant="filled"
+                                    name="comment"
+                                    onChange={(e) =>
+                                        setUserComment(e.target.value)
+                                    }
+                                />
+                                <Button
+                                    onClick={() => addUserComment(_id)}
+                                    variant="outlined"
+                                >
+                                    Add Comment
+                                </Button>
+                            </Stack>
+                        </Box> */}
+                        <h4>not here yet for comments</h4>
+                    </Modal>
                 )}
             </div>
         </Card>

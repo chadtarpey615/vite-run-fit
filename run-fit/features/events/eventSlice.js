@@ -36,11 +36,24 @@ export const createEvent = createAsyncThunk('events/create', async (data, thunkA
 
 
 export const deleteEvent = createAsyncThunk('events/delete', async (id, thunkAPI) => {
-    console.log("********", id)
+
     try
     {
         const token = thunkAPI.getState().user.user.token
         return await eventService.deleteEvent(id, token)
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+}
+)
+
+export const userUpdateEvent = createAsyncThunk('events/update', async (data, thunkAPI) => {
+    try
+    {
+        const token = thunkAPI.getState().user.user.token
+        return await eventService.updateEvent(data, token)
     } catch (error)
     {
         console.log(error)
@@ -95,7 +108,16 @@ export const eventSlice = createSlice({
                 state.isError = true
                 state.message = action.error.message
             }
-            )
+            ),
+            builder.addCase(userUpdateEvent.pending, (state, action) => {
+                state.isLoading = true
+            }
+            ),
+            builder.addCase(userUpdateEvent.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.events = action.payload
+            })
 
 
     }

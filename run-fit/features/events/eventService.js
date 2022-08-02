@@ -37,11 +37,34 @@ const deleteEvent = async (id, token) => {
     }
 }
 
+const updateEvent = async (eventData, token) => {
+    const { user, title, date, distance, id } = eventData
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const updatedEvent = {
+        id,
+        title,
+        date,
+        distance,
+        creator: user
+
+    }
+
+    const response = await axios.patch(`${API_URL}all-event/${id}`, updatedEvent, config)
+    return response.data
+}
+
 
 const eventService = {
     getEvents,
     createEvent,
-    deleteEvent
+    deleteEvent,
+    updateEvent
 
 }
 
