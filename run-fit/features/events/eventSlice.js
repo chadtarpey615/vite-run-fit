@@ -63,6 +63,18 @@ export const userUpdateEvent = createAsyncThunk('events/update', async (data, th
 }
 )
 
+export const addComment = createAsyncThunk('events/comment', async (data, thunkAPI) => {
+    try
+    {
+        return await eventService.addComment(data)
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+}
+)
+
 
 export const eventSlice = createSlice({
     name: "events",

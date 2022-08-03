@@ -60,11 +60,32 @@ const updateEvent = async (eventData, token) => {
 }
 
 
+const addComment = async (data) => {
+    console.log("comments", data)
+    const comment = {
+        name: data.name,
+        comment: data.comment
+    }
+
+    try
+    {
+        const response = await axios.post(`${API_URL}/${data._id}`, comment)
+        return response.data
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+}
+
+
+
 const eventService = {
     getEvents,
     createEvent,
     deleteEvent,
-    updateEvent
+    updateEvent,
+    addComment
 
 }
 

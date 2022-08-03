@@ -1,6 +1,7 @@
 const Mongoose = require('mongoose');
 const Event = require('../models/event');
 const User = require('../models/user');
+const Comment = require('../models/Comments');
 
 
 
@@ -114,6 +115,41 @@ exports.updateEvent = async (req, res) => {
         console.log(error.message)
     }
 
+}
+
+
+exports.addComment = async (req, res) => {
+    const eventId = req.params.id
+
+    let event
+    let comment
+    let user
+
+    try
+    {
+        event = await Event.findById(eventId).populate("user")
+        user = await User.findById(event.user._id)
+    } catch (error)
+    {
+        console.log(error.message)
+    }
+
+    comment = new Comment({
+        user: user._id,
+        event: eventId,
+        name: req.body.name,
+        comment: req.body.comment
+
+    })
+
+    comment.save()
+
+    const sess = await Mongoose.startSession()
+    sess.startTransaction()
+    await event.save({ session: sess })
+    event.comments.push(comment)
+    await event.save({ session: sess })
+    await sess.commitTransaction()
 }
 
 

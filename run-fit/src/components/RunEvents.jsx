@@ -8,11 +8,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "./Card";
-import { userUpdateEvent } from "../../features/events/eventSlice";
+import { userUpdateEvent, addComment } from "../../features/events/eventSlice";
 
 const RunEvents = ({ event, removeEvent }) => {
     const { user } = useSelector((state) => state.user);
     const [open, setOpen] = useState(false);
+    const [openComment, setOpenComment] = useState(false);
+    const [userComment, setUserComment] = useState("");
+    const [commentEmail, setCommentEmail] = useState("");
     const [updateEventData, setUpdataEventData] = useState({
         title: "",
         date: "",
@@ -31,6 +34,8 @@ const RunEvents = ({ event, removeEvent }) => {
     };
 
     const handleClose = () => setOpen(false);
+    const handleComment = (e) => setOpenComment(true);
+    const handleCommentClose = () => setOpenComment(false);
 
     const updatedEvent = async (id) => {
         if (!user) {
@@ -46,6 +51,24 @@ const RunEvents = ({ event, removeEvent }) => {
             if (eventUpdateInfo) {
                 dispatch(userUpdateEvent(eventUpdateInfo));
             }
+        }
+    };
+
+    const addUserComment = async (id) => {
+        console.log(commentEmail);
+        if (!user) {
+            alert("please log in first to continue");
+        } else {
+            const eventComment = {
+                _id: id,
+                name: commentEmail,
+                comment: userComment,
+            };
+
+            dispatch(addComment(eventComment));
+            handleCommentClose();
+
+            // window.location.reload()
         }
     };
 
@@ -97,15 +120,28 @@ const RunEvents = ({ event, removeEvent }) => {
                         Not Authorized to Delete
                     </button>
                 )}
-
-                {user._id === event.user && (
+                {user._id === event.user ? (
                     <button
                         className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
                         onClick={(e) => handleOpen(_id)}
                     >
                         Update Event
                     </button>
+                ) : (
+                    <button
+                        className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                        disabled
+                        onClick={(e) => handleOpen(_id)}
+                    >
+                        Not Authorized to Update
+                    </button>
                 )}
+                <button
+                    className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                    onClick={() => handleComment(_id)}
+                >
+                    Add Comment
+                </button>
 
                 {open ? (
                     <Modal
@@ -148,12 +184,12 @@ const RunEvents = ({ event, removeEvent }) => {
                     </Modal>
                 ) : (
                     <Modal
-                    // open={openComment}
-                    // onClose={handleCommentClose}
-                    // aria-labelledby="modal-modal-title"
-                    // aria-describedby="modal-modal-description"
+                        open={openComment}
+                        onClose={handleCommentClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
                     >
-                        {/* <Box sx={style}>
+                        <Box sx={style}>
                             <Stack spacing={2}>
                                 <h3>Let's add a comment</h3>
 
@@ -182,8 +218,7 @@ const RunEvents = ({ event, removeEvent }) => {
                                     Add Comment
                                 </Button>
                             </Stack>
-                        </Box> */}
-                        <h4>not here yet for comments</h4>
+                        </Box>
                     </Modal>
                 )}
             </div>
