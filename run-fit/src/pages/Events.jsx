@@ -20,7 +20,7 @@ const Events = () => {
             </div>
 
             <div className="mt-16">
-                {events.map((event) => (
+                {events?.map((event) => (
                     <RunEvents event={event} removeEvent={removeEvent} />
                 ))}
             </div>

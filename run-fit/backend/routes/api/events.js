@@ -9,7 +9,7 @@ router.get("/all-events", getAllEvents);
 
 router.get("/:id", deleteEvent);
 
-router.patch("all-event/:id", updateEvent)
+router.put("/all-events/:id", updateEvent)
 
 
 module.exports = router;

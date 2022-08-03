@@ -55,7 +55,7 @@ const updateEvent = async (eventData, token) => {
 
     }
 
-    const response = await axios.patch(`${API_URL}all-event/${id}`, updatedEvent, config)
+    const response = await axios.put(`${API_URL}/all-events/${id}`, updatedEvent, config)
     return response.data
 }
 

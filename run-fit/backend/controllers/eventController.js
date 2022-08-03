@@ -90,6 +90,7 @@ exports.deleteEvent = async (req, res) => {
 exports.updateEvent = async (req, res) => {
     const eventId = req.params.id
     const { title, distance, date } = req.body
+    console.log("update hit")
     let event
 
     try

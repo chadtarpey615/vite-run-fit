@@ -120,7 +120,7 @@ const RunEvents = ({ event, removeEvent }) => {
                                     id="filled-basic"
                                     label="Update Title"
                                     variant="filled"
-                                    name="name"
+                                    name="title"
                                     onChange={(e) => onChange(e)}
                                 />
                                 <TextField
