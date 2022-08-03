@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "./Card";
 import { userUpdateEvent, addComment } from "../../features/events/eventSlice";
+import { Divider } from "@mui/material";
 
 const RunEvents = ({ event, removeEvent }) => {
     const { user } = useSelector((state) => state.user);
@@ -97,130 +98,136 @@ const RunEvents = ({ event, removeEvent }) => {
                 <h4 className="font-bold">Created By: {creator}</h4>
                 <DirectionsRun />
                 <h3 className="underline font-bold mt-4">Comments</h3>
+                {event.comments.map((comment) => (
+                    <div>
+                        <p className="text-sm font-bol text-white">
+                            {comment.name} :
+                            <span className="text-sm">{comment.comment}</span>
+                        </p>
+                        <DeleteIcon />
+                        <Divider />
+                    </div>
+                ))}
 
-                {/* map comments here in the future  */}
-
-                <div className="card-btn flex justify-center"></div>
-            </div>
-
-            <div className="card-btn flex justify-center ">
-                {user._id === event.user ? (
-                    <button
-                        className=" hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
-                        onClick={(e) => removeEvent(e, _id)}
-                    >
-                        Delete Event
-                    </button>
-                ) : (
+                <div className="card-btn flex justify-center ">
+                    {user._id === event.user ? (
+                        <button
+                            className=" hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            onClick={(e) => removeEvent(e, _id)}
+                        >
+                            Delete Event
+                        </button>
+                    ) : (
+                        <button
+                            className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            disabled
+                            onClick={(e) => removeEvent(e, _id)}
+                        >
+                            Not Authorized to Delete
+                        </button>
+                    )}
+                    {user._id === event.user ? (
+                        <button
+                            className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            onClick={(e) => handleOpen(_id)}
+                        >
+                            Update Event
+                        </button>
+                    ) : (
+                        <button
+                            className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            disabled
+                            onClick={(e) => handleOpen(_id)}
+                        >
+                            Not Authorized to Update
+                        </button>
+                    )}
                     <button
                         className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
-                        disabled
-                        onClick={(e) => removeEvent(e, _id)}
+                        onClick={() => handleComment(_id)}
                     >
-                        Not Authorized to Delete
+                        Add Comment
                     </button>
-                )}
-                {user._id === event.user ? (
-                    <button
-                        className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
-                        onClick={(e) => handleOpen(_id)}
-                    >
-                        Update Event
-                    </button>
-                ) : (
-                    <button
-                        className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
-                        disabled
-                        onClick={(e) => handleOpen(_id)}
-                    >
-                        Not Authorized to Update
-                    </button>
-                )}
-                <button
-                    className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
-                    onClick={() => handleComment(_id)}
-                >
-                    Add Comment
-                </button>
 
-                {open ? (
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
-                            <Stack spacing={2}>
-                                <TextField
-                                    id="filled-basic"
-                                    label="Update Title"
-                                    variant="filled"
-                                    name="title"
-                                    onChange={(e) => onChange(e)}
-                                />
-                                <TextField
-                                    id="filled-basic"
-                                    label="Update Date"
-                                    variant="filled"
-                                    name="date"
-                                    onChange={(e) => onChange(e)}
-                                />
-                                <TextField
-                                    id="filled-basic"
-                                    label="Update Distance"
-                                    variant="filled"
-                                    name="distance"
-                                    onChange={(e) => onChange(e)}
-                                />
-                                <Button
-                                    onClick={() => updatedEvent(_id)}
-                                    variant="outlined"
-                                >
-                                    Update
-                                </Button>
-                            </Stack>
-                        </Box>
-                    </Modal>
-                ) : (
-                    <Modal
-                        open={openComment}
-                        onClose={handleCommentClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
-                            <Stack spacing={2}>
-                                <h3>Let's add a comment</h3>
+                    {open ? (
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style}>
+                                <Stack spacing={2}>
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Update Title"
+                                        variant="filled"
+                                        name="title"
+                                        onChange={(e) => onChange(e)}
+                                    />
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Update Date"
+                                        variant="filled"
+                                        name="date"
+                                        onChange={(e) => onChange(e)}
+                                    />
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Update Distance"
+                                        variant="filled"
+                                        name="distance"
+                                        onChange={(e) => onChange(e)}
+                                    />
+                                    <Button
+                                        onClick={() => updatedEvent(_id)}
+                                        variant="outlined"
+                                    >
+                                        Update
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        </Modal>
+                    ) : (
+                        <Modal
+                            open={openComment}
+                            onClose={handleCommentClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style}>
+                                <Stack spacing={2}>
+                                    <h3>Let's add a comment</h3>
 
-                                <TextField
-                                    id="filled-basic"
-                                    label="Email"
-                                    variant="filled"
-                                    name="username"
-                                    onChange={(e) =>
-                                        setCommentEmail(e.target.value)
-                                    }
-                                />
-                                <TextField
-                                    id="filled-basic"
-                                    label="Add Comment"
-                                    variant="filled"
-                                    name="comment"
-                                    onChange={(e) =>
-                                        setUserComment(e.target.value)
-                                    }
-                                />
-                                <Button
-                                    onClick={() => addUserComment(_id)}
-                                    variant="outlined"
-                                >
-                                    Add Comment
-                                </Button>
-                            </Stack>
-                        </Box>
-                    </Modal>
-                )}
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Email"
+                                        variant="filled"
+                                        name="username"
+                                        onChange={(e) =>
+                                            setCommentEmail(e.target.value)
+                                        }
+                                    />
+                                    <TextField
+                                        id="filled-basic"
+                                        label="Add Comment"
+                                        variant="filled"
+                                        name="comment"
+                                        onChange={(e) =>
+                                            setUserComment(e.target.value)
+                                        }
+                                    />
+                                    <Button
+                                        onClick={() => addUserComment(_id)}
+                                        variant="outlined"
+                                    >
+                                        Add Comment
+                                    </Button>
+                                </Stack>
+                            </Box>
+                        </Modal>
+                    )}
+                </div>
             </div>
         </Card>
     );

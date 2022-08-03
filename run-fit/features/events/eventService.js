@@ -4,7 +4,7 @@ const API_URL = "http://localhost:3003/api/events/";
 
 
 const getEvents = async (events) => {
-    const response = await axios.get(`${API_URL}all-events`);
+    const response = await axios.get(`${API_URL}/all-events`);
     return response.data;
 
 }

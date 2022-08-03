@@ -5,6 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const initialState = {
     events: [],
+    comments: [],
     isError: false,
     isLoading: false,
     isSuccess: false,

@@ -28,7 +28,15 @@ const eventSchema = new mongoose.Schema({
     creator: {
         type: String,
         required: true
-    }
+    },
+
+    comments: [
+        {
+            type: mongoose.Types.ObjectId,
+            required: true,
+            ref: "Comments"
+        }
+    ]
 }
     , { timestamps: true });
 

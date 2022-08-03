@@ -7,8 +7,13 @@ const Comment = require('../models/Comments');
 
 exports.getAllEvents = async (req, res) => {
     let events
-    events = await Event.find({})
-    res.json(events)
+    await Event.find({}).populate("comments").exec(function (err, user) {
+        console.log("user user ", user)
+        events = user
+        res.json(events)
+    })
+
+
 }
 
 
@@ -119,7 +124,7 @@ exports.updateEvent = async (req, res) => {
 
 
 exports.addComment = async (req, res) => {
-    const eventId = req.params.id
+    const eventId = req.params._id
 
     let event
     let comment
