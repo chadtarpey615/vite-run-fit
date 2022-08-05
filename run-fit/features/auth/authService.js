@@ -32,12 +32,34 @@ const getAllUsers = async () => {
     return response.data;
 }
 
+const addNewFriend = async (friend, data) => {
+    console.log("friend", friend, data._id)
+
+    try
+    {
+        const response = axios.post(`/api/users/${friend._id}/${data._id}`)
+
+        return response.data
+    } catch (error)
+    {
+
+    }
+}
+
+const getUserFriends = async (id) => {
+    const response = await axios.get(`/api/users/${id}`)
+    console.log(response.data)
+    return response.data
+}
+
 
 const authService = {
     registerUser,
     loginUser,
     logoutUser,
-    getAllUsers
+    getAllUsers,
+    addNewFriend,
+    getUserFriends
 }
 
 export default authService;

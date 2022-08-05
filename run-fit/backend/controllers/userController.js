@@ -94,3 +94,66 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+
+
+exports.addFriend = async (req, res) => {
+    const { id, friend } = req.body;
+
+    let user
+    let newFriend
+
+    try
+    {
+        newFriend = await User.findById(friend)
+        newFriend = await new Friend({
+            _id: newFriend._id,
+            email: newFriend.email,
+            username: newFriend.username,
+        })
+
+        newFriend.save()
+        user = await User.findById(id).populate("friends")
+
+    } catch (error)
+    {
+        console.log(error.message)
+    }
+
+    try
+    {
+
+        const sess = await Mongoose.startSession()
+        sess.startTransaction()
+        await user.save({ session: sess })
+        user.friends.push(newFriend)
+        await user.save({ session: sess })
+        await sess.commitTransaction()
+
+    } catch (error) 
+    {
+        console.log(error)
+    }
+
+}
+
+exports.getFriendsForUser = async (req, res, next) => {
+    console.log("usercont")
+    const userId = req.params.id
+
+    let user
+    let userFriends = []
+
+
+    user = await User.findById(userId).populate("friends")
+    const { friends } = user
+    for (let i = 0; i < friends.length; i++)
+    {
+        // res.json(friends[i].username)
+        userFriends.push(friends[i].username)
+        // friends[i] = await Friends.findById
+        // res.json(userFriends)
+    }
+    res.json(userFriends)
+    next()
+
+}

@@ -113,6 +113,7 @@ const RunEvents = ({ event, removeEvent }) => {
                 <h4 className="font-bold">Distance: {distance}</h4>
                 <h4 className="font-bold">Created By: {creator}</h4>
                 <DirectionsRun />
+
                 <h3 className="underline font-bold mt-4">Comments</h3>
                 {event.comments.map((comment) => (
                     <div>
