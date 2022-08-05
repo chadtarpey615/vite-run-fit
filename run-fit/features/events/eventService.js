@@ -78,6 +78,21 @@ const addComment = async (data) => {
 
 }
 
+const deleteComment = async (event, comment) => {
+    console.log("eventService", event, comment)
+
+    try
+    {
+        const response = await axios.get(`${API_URL}/${event}/${comment}`)
+        return response.data
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+}
+
+
 
 
 const eventService = {
@@ -85,7 +100,8 @@ const eventService = {
     createEvent,
     deleteEvent,
     updateEvent,
-    addComment
+    addComment,
+    deleteComment
 
 }
 

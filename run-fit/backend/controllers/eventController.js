@@ -158,6 +158,44 @@ exports.addComment = async (req, res) => {
 }
 
 
+exports.deleteComment = async (req, res) => {
+
+    const eventId = req.params.id
+    const commentId = req.params.comment
+    let event
+    let comment
+    try
+    {
+        event = await Event.findById(eventId)
+        comment = await Comment.findById(commentId).populate("event")
+
+        // need to add user check for ownership of comment 
+        console.log(event)
+        comment.delete()
+
+
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+    try
+    {
+        const sess = await Mongoose.startSession()
+        sess.startTransaction()
+        await comment.remove({ session: sess })
+        comment.event.comments.pull(comment)
+        await comment.event.save({ session: sess })
+        await sess.commitTransaction()
+    } catch (error)
+    {
+        console.log(error)
+    }
+}
+
+
+
+
 
 
 

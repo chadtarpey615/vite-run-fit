@@ -77,6 +77,21 @@ export const addComment = createAsyncThunk('events/comment', async (data, thunkA
 )
 
 
+export const deleteComment = createAsyncThunk('events/deleteComment', async (commentInfo, thunkAPI) => {
+    const { event, comment } = commentInfo
+    console.log("eventSlice", event, comment)
+
+    try
+    {
+        return await eventService.deleteComment(event, comment)
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+})
+
+
 export const eventSlice = createSlice({
     name: "events",
     initialState,
@@ -89,15 +104,15 @@ export const eventSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.events = action.payload
-            })
-        builder.addCase(getEvents.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.error.message
-        })
-        builder.addCase(createEvent.pending, (state, action) => {
-            state.isLoading = true
-        }),
+            }),
+            builder.addCase(getEvents.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.error.message
+            }),
+            builder.addCase(createEvent.pending, (state, action) => {
+                state.isLoading = true
+            }),
             builder.addCase(createEvent.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
@@ -131,7 +146,18 @@ export const eventSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.events = action.payload
-            })
+            }),
+            builder.addCase(deleteComment.pending, (state) => {
+                state.isLoading = true
+            }),
+            builder.addCase(deleteComment.fulfilled, (state, action) => {
+                console.log("comment case", state.events)
+                state.isLoading = false
+                state.isSuccess = true
+                state.comments = state.events.comments.filter(comment => comment.comments !== action.payload)
+            }
+            )
+
 
 
     }

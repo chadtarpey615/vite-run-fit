@@ -8,7 +8,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Card from "./Card";
-import { userUpdateEvent, addComment } from "../../features/events/eventSlice";
+import {
+    userUpdateEvent,
+    addComment,
+    deleteComment,
+} from "../../features/events/eventSlice";
 import { Divider } from "@mui/material";
 
 const RunEvents = ({ event, removeEvent }) => {
@@ -73,6 +77,18 @@ const RunEvents = ({ event, removeEvent }) => {
         }
     };
 
+    const eventDeleteComment = async (e, event, id) => {
+        console.log("runevents", event._id, id);
+
+        const commentInfo = {
+            event: event._id,
+            comment: id,
+        };
+
+        dispatch(deleteComment(commentInfo));
+        // window.location.reload();
+    };
+
     const { title, date, distance, _id, creator } = event;
 
     const style = {
@@ -104,7 +120,11 @@ const RunEvents = ({ event, removeEvent }) => {
                             {comment.name} :
                             <span className="text-sm">{comment.comment}</span>
                         </p>
-                        <DeleteIcon />
+                        <DeleteIcon
+                            onClick={(e) =>
+                                eventDeleteComment(e, event, comment._id)
+                            }
+                        />
                         <Divider />
                     </div>
                 ))}
