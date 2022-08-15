@@ -35,6 +35,6 @@ app.use("/api/events", require("./routes/api/events"))
 
 
 
-// spin up the server
+// spin up the server yes yes yes
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}!`))

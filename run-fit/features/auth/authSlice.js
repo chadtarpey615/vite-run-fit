@@ -53,6 +53,28 @@ export const getUsers = createAsyncThunk('user/getUsers', async () => {
 
 })
 
+export const addNewFriend = createAsyncThunk("user/newFriends", async ({ friend, data }, thunkAPI) => {
+    console.log("data", data, "friend", friend)
+    try
+    {
+        return await authService.addNewFriend(friend, data)
+    } catch (error)
+    {
+
+    }
+})
+
+export const getUserFriends = createAsyncThunk("user/allFriends", async (data, thunkAPI) => {
+    console.log("data", data)
+    try
+    {
+        return await authService.getUserFriends(data)
+    } catch (error)
+    {
+
+    }
+})
+
 
 
 
@@ -106,7 +128,21 @@ export const userAuthSlice = createSlice({
                 state.userError = true
                 state.userMessage = action.error.message
             }
-            )
+            ),
+            builder.addCase(getUserFriends.pending, (state) => {
+                state.isLoading = true
+            }),
+            builder.addCase(getUserFriends.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.userSuccess = true
+                state.friends = action.payload
+            }),
+            builder.addCase(getUserFriends.rejected, (state, action) => {
+                state.isLoading = false
+                state.userError = true
+                state.userMessage = action.payload
+
+            })
     }
 
 })

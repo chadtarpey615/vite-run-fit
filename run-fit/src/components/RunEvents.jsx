@@ -1,5 +1,5 @@
 import { DirectionsRun, SettingsPowerRounded } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
@@ -17,6 +17,7 @@ import { Divider } from "@mui/material";
 
 const RunEvents = ({ event, removeEvent }) => {
     const { user } = useSelector((state) => state.user);
+    const { events } = useSelector((state) => state.events);
     const [open, setOpen] = useState(false);
     const [openComment, setOpenComment] = useState(false);
     const [userComment, setUserComment] = useState("");
@@ -26,7 +27,12 @@ const RunEvents = ({ event, removeEvent }) => {
         date: "",
         distance: null,
     });
+
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log("event", events);
+    }, [event]);
 
     const onChange = (e) =>
         setUpdataEventData({
@@ -59,8 +65,9 @@ const RunEvents = ({ event, removeEvent }) => {
         }
     };
 
-    const addUserComment = async (id) => {
-        console.log(commentEmail);
+    const addUserComment = async (e, id) => {
+        e.preventDefault();
+        console.log(e, commentEmail, id);
         if (!user) {
             alert("please log in first to continue");
         } else {
@@ -73,7 +80,7 @@ const RunEvents = ({ event, removeEvent }) => {
             dispatch(addComment(eventComment));
             handleCommentClose();
 
-            // window.location.reload()
+            window.location.reload();
         }
     };
 
@@ -117,7 +124,7 @@ const RunEvents = ({ event, removeEvent }) => {
                 <h3 className="underline font-bold mt-4">Comments</h3>
                 {event.comments.map((comment) => (
                     <div>
-                        <p className="text-sm font-bol text-white">
+                        <p className="text-sm font-bold text-white">
                             {comment.name} :
                             <span className="text-sm">{comment.comment}</span>
                         </p>
@@ -147,6 +154,7 @@ const RunEvents = ({ event, removeEvent }) => {
                             Not Authorized to Delete
                         </button>
                     )}
+
                     {user._id === event.user ? (
                         <button
                             className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
@@ -239,7 +247,7 @@ const RunEvents = ({ event, removeEvent }) => {
                                         }
                                     />
                                     <Button
-                                        onClick={() => addUserComment(_id)}
+                                        onClick={(e) => addUserComment(e, _id)}
                                         variant="outlined"
                                     >
                                         Add Comment

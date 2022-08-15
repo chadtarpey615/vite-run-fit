@@ -14,6 +14,11 @@ const Users = () => {
         await dispatch(getUsers());
     };
 
+    const addFriend = async (friend, data) => {
+        console.log("friends", data);
+        await dispatch(addFriend({ friend, data }));
+    };
+
     useEffect(() => {
         getAllUsers();
     }, []);
@@ -51,8 +56,15 @@ const Users = () => {
                                         <p className="text-white">
                                             Events: {data.events.length}
                                         </p>
-                                        {/* <p className="text-white">Friends: {data.friends.length}</p> */}
-                                        <button className="text-white">
+                                        <p className="text-white">
+                                            Friends: {data.friends.length}
+                                        </p>
+                                        <button
+                                            className="text-white"
+                                            onClick={() =>
+                                                addFriend(user, data)
+                                            }
+                                        >
                                             <PeopleIcon />
                                             Add Friends
                                         </button>
