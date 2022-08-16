@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getEvents, deleteEvent } from "../../features/events/eventSlice";
-import RunEvents from "../components/RunEvents";
+const RunEvents = lazy(() => import("../components/RunEvents"));
+
 const Events = () => {
     const { events, isLoading } = useSelector((state) => state.events);
     const dispatch = useDispatch();
@@ -25,7 +26,9 @@ const Events = () => {
 
             <div className="mt-16">
                 {events?.map((event) => (
-                    <RunEvents event={event} removeEvent={removeEvent} />
+                    <Suspense>
+                        <RunEvents event={event} removeEvent={removeEvent} />
+                    </Suspense>
                 ))}
             </div>
         </div>

@@ -80,7 +80,7 @@ const RunEvents = ({ event, removeEvent }) => {
             dispatch(addComment(eventComment));
             handleCommentClose();
 
-            window.location.reload();
+            // window.location.reload();
         }
     };
 

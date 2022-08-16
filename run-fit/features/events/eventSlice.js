@@ -127,6 +127,7 @@ export const eventSlice = createSlice({
                 state.isLoading = true
             }),
             builder.addCase(deleteEvent.fulfilled, (state, action) => {
+                console.log("delete eventssss", action.payload)
                 state.isLoading = false
                 state.isSuccess = true
                 state.message = "Event deleted successfully"
@@ -147,6 +148,18 @@ export const eventSlice = createSlice({
                 state.isSuccess = true
                 state.events = action.payload
             }),
+            builder.addCase(addComment.pending, (state, action) => {
+                console.log("add comment pending", action)
+                state.isLoading = true
+            }
+            ),
+            builder.addCase(addComment.fulfilled, (state, action) => {
+                console.log("add comment fulfilled")
+                console.log("commentslice", action.payload)
+                state.isLoading = false
+                state.isSuccess = true
+                state.comments = action.payload
+            }),
             builder.addCase(deleteComment.pending, (state) => {
                 state.isLoading = true
             }),
@@ -157,9 +170,6 @@ export const eventSlice = createSlice({
                 state.comments = state.events.comments.filter(comment => comment.comments !== action.payload)
             }
             )
-
-
-
     }
 })
 

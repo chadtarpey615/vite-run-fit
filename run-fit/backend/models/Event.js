@@ -37,6 +37,21 @@ const eventSchema = new mongoose.Schema({
             ref: "Comments"
         }
     ]
+
+    // if just want comments to be an array on event model
+
+    // comments: [
+    //     {
+    //         name: {
+    //             type: String,
+    //             required: true
+    //         },
+    //         comment: {
+    //             type: String,
+    //             required: true
+    //         }
+    //     }
+    // ]
 }
     , { timestamps: true });
 

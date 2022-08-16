@@ -61,7 +61,6 @@ const updateEvent = async (eventData, token) => {
 
 
 const addComment = async (data) => {
-    console.log("comments", data)
     const comment = {
         name: data.name,
         comment: data.comment
