@@ -39,6 +39,20 @@ export const loginUser = createAsyncThunk('user/loginUser', async (user) => {
 
 })
 
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+    console.log("logout hit in auth slice")
+
+    try
+    {
+        return await authService.logoutUser()
+    } catch (error)
+    {
+        console.log(error)
+    }
+
+}
+)
+
 export const getUsers = createAsyncThunk('user/getUsers', async () => {
     console.log("get users hit in auth slice")
 
@@ -106,6 +120,15 @@ export const userAuthSlice = createSlice({
                 state.user = action.payload
                 state.userSuccess = true
                 state.userMessage = "User logged in successfully"
+            }),
+            builder.addCase(logoutUser.pending, (state, action) => {
+                state.isLoading = true
+            }),
+            builder.addCase(logoutUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload
+                state.userSuccess = true
+                state.userMessage = "User logged out successfully"
             }),
             builder.addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false

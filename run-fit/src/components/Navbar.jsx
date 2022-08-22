@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { logoutUser } from "../../features/auth/authSlice";
 
 const Navbar = () => {
     const { user } = useSelector((state) => state.user);
@@ -20,6 +21,10 @@ const Navbar = () => {
             // dispatch(getUserFriends(user._id))
         }
     }, []);
+
+    const logout = () => {
+        dispatch(logoutUser());
+    };
 
     const toggleMobile = () => {
         setMobile(!mobile);
@@ -97,7 +102,7 @@ const Navbar = () => {
                         <ul>
                             <li className="mx-2">
                                 <Link
-                                    onClick={() => alert("Logout")}
+                                    onClick={logout}
                                     className="text-yellow-900 bg-yellow-400 p-2 hover:bg-yellow-800 hover:text-yellow-200 transition duration-300 rounded "
                                     aria-current="page"
                                     to="/login"
