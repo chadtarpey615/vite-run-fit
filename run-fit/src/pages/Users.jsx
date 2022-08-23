@@ -28,21 +28,23 @@ const Users = () => {
     return (
         <div>
             <div className="flex justify-center text-white my-5">
-                <h1 className="text-4xl">Run Fit Users</h1>
+                <h1 className="text-5xl font-bold animate-bounce">
+                    Run Fit Users
+                </h1>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap justify-around">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-start py-5 my-4 ">
                 {users ? (
                     users.map((data) => (
-                        <div className="mx-auto border-2">
+                        <div className="w-2/3 mx-auto border-2 my-5">
                             <Card>
-                                <div className="flex w-68 justify-start">
+                                <div className="flex w-2/3 justify-start">
                                     <img
                                         className="rounded-circle shadow-xl w-1/3"
                                         src={image}
                                         alt="Avatar"
                                     />
-                                    <div className="flex flex-col justify-center w-1/3">
+                                    <div className="flex flex-col items-start w-1/4 ml-4">
                                         {user.username === data.username ? (
                                             <h1 className="mx-2 my-5 text-white text-2xl">
                                                 {data.username}

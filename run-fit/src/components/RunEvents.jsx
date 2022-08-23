@@ -112,42 +112,46 @@ const RunEvents = ({ event, removeEvent }) => {
 
     return (
         <Card>
-            <div className="flex flex-col text-white space-x-4 pb-4">
-                <h1 className="px-4 my-4 text-2xl font-bold underline">
-                    Event Title: <span>{title}</span>
-                </h1>
-                <h4 className="font-bold">Date: {date}</h4>
-                <h4 className="font-bold">Distance: {distance}</h4>
-                <h4 className="font-bold">Created By: {creator}</h4>
-                <DirectionsRun />
+            <div className="flex w-full">
+                <div className="flex flex-col text-white space-x-4 pb-4">
+                    <h1 className="px-4 my-4 text-2xl font-bold underline">
+                        Event Title: <span>{title}</span>
+                    </h1>
+                    <h4 className="font-bold">Date: {date}</h4>
+                    <h4 className="font-bold">Distance: {distance}</h4>
+                    <h4 className="font-bold">Created By: {creator}</h4>
+                    <DirectionsRun />
 
-                <h3 className="underline font-bold mt-4">Comments</h3>
-                {event.comments.map((comment) => (
-                    <div>
-                        <p className="text-sm font-bold text-white">
-                            {comment.name} :
-                            <span className="text-sm">{comment.comment}</span>
-                        </p>
-                        <DeleteIcon
-                            onClick={(e) =>
-                                eventDeleteComment(e, event, comment._id)
-                            }
-                        />
-                        <Divider />
-                    </div>
-                ))}
+                    <h3 className="underline font-bold mt-4">Comments</h3>
+                    {event.comments.map((comment) => (
+                        <div>
+                            <p className="text-sm font-bold text-white">
+                                {comment.name} :
+                                <span className="text-sm">
+                                    {comment.comment}
+                                </span>
+                            </p>
+                            <DeleteIcon
+                                onClick={(e) =>
+                                    eventDeleteComment(e, event, comment._id)
+                                }
+                            />
+                            <Divider />
+                        </div>
+                    ))}
+                </div>
 
-                <div className="card-btn flex justify-center ">
+                <div className="card-btn flex-col w-1/3 self-center  mx-4 ">
                     {user._id === event.user ? (
                         <button
-                            className=" hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 mt-10 rounded bg-blue-700 text-white"
                             onClick={(e) => removeEvent(e, _id)}
                         >
                             Delete Event
                         </button>
                     ) : (
                         <button
-                            className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white"
                             disabled
                             onClick={(e) => removeEvent(e, _id)}
                         >
@@ -157,14 +161,14 @@ const RunEvents = ({ event, removeEvent }) => {
 
                     {user._id === event.user ? (
                         <button
-                            className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 mt-4 rounded bg-blue-700 text-white"
                             onClick={(e) => handleOpen(_id)}
                         >
                             Update Event
                         </button>
                     ) : (
                         <button
-                            className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white"
                             disabled
                             onClick={(e) => handleOpen(_id)}
                         >
@@ -172,7 +176,7 @@ const RunEvents = ({ event, removeEvent }) => {
                         </button>
                     )}
                     <button
-                        className="hover:bg-blue-500 w-20 h-20 rounded bg-blue-700 text-white"
+                        className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white"
                         onClick={() => handleComment(_id)}
                     >
                         Add Comment

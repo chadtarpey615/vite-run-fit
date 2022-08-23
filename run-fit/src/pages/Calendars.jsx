@@ -52,7 +52,7 @@ const Calendars = () => {
                     <h1 className="mx-5 text-white text-4xl">Run Fit</h1>
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-center md:justify-around ">
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-around ">
                 <div className="flex ">
                     <DayPicker onDayClick={(e) => setSelectedDay(e)} />
                 </div>
@@ -93,13 +93,14 @@ const Calendars = () => {
                                 name="distance"
                                 variant="filled"
                                 onChange={(e) => onChange(e)}
+                                className="h-20 my-5"
                             />
                         </div>
                         <div className="mt-2">
                             <button className="text-sm p-2 bg-blue-600 text-white hover:bg-blue-800 transition duration-300">
                                 Enter Event
                             </button>
-                            <button className="text-sm p-2 bg-blue-600  hover:bg-blue-800 transition duration-300">
+                            <button className="text-sm p-2 bg-blue-600 text-white hover:bg-blue-800 transition duration-300">
                                 <Link to="events">See All Events</Link>
                             </button>
                         </div>
