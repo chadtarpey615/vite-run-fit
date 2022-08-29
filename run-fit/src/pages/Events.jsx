@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getEvents, deleteEvent } from "../../features/events/eventSlice";
+import Spinner from "../components/Spinner";
 const RunEvents = lazy(() => import("../components/RunEvents"));
 
 const Events = () => {
@@ -16,6 +17,10 @@ const Events = () => {
         console.log(events);
     }, []);
 
+    if (isLoading) {
+        return <Spinner />;
+    }
+
     return (
         <div>
             <div className="flex justify-center">
@@ -24,7 +29,7 @@ const Events = () => {
                 </h1>
             </div>
 
-            <div className="mt-16">
+            <div className="mt-16 flex flex-col md:flex-row">
                 {events?.map((event) => (
                     <Suspense>
                         <RunEvents event={event} removeEvent={removeEvent} />

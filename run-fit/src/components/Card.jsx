@@ -1,7 +1,7 @@
 import React from "react";
 
 const Card = (props) => {
-    return <div className="flex border-2">{props.children}</div>;
+    return <div className="m-4 w-1/2 border-2">{props.children}</div>;
 };
 
 export default Card;

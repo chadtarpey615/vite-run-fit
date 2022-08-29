@@ -79,7 +79,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div className="flex">
+                <div className="flex ">
                     <h1 className="text-white font-bold text-3xl">Run Fit</h1>
                     <button
                         onClick={toggleMobile}
@@ -140,7 +140,7 @@ const Navbar = () => {
                 )}
             </div>
             {mobile && (
-                <div className="mobile px-4 bg-slate-900 ">
+                <div className="mobile md:hidden px-4 bg-slate-900 ">
                     <ul>
                         <li className="mx-2">
                             <Link

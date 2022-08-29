@@ -7,9 +7,9 @@ const Home = () => {
     return (
         <>
             <div className="container mt-20">
-                <div className="flex">
+                <div className="flex justify-center">
                     <Animated animationIn="rubberBand">
-                        <h1 className="text-white text-7xl underline ">
+                        <h1 className="text-white text-4xl md:text-7xl underline ">
                             Welcome to Run Fit
                         </h1>
                     </Animated>

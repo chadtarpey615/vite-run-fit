@@ -53,7 +53,7 @@ const Calendars = () => {
                 </div>
             </div>
             <div className="flex flex-col md:flex-row items-center justify-center md:justify-around ">
-                <div className="flex ">
+                <div className="flex">
                     <DayPicker onDayClick={(e) => setSelectedDay(e)} />
                 </div>
                 <div className="flex justify-center ">
