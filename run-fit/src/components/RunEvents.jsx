@@ -17,7 +17,7 @@ import { Divider } from "@mui/material";
 
 const RunEvents = ({ event, removeEvent }) => {
     const { user } = useSelector((state) => state.user);
-    const { events } = useSelector((state) => state.events);
+    const { events, isLoading } = useSelector((state) => state.events);
     const [open, setOpen] = useState(false);
     const [openComment, setOpenComment] = useState(false);
     const [userComment, setUserComment] = useState("");
@@ -110,6 +110,10 @@ const RunEvents = ({ event, removeEvent }) => {
         p: 4,
     };
 
+    if (isLoading) {
+        return <Loading />;
+    }
+
     return (
         <Card>
             <div className="flex w-full">
@@ -144,14 +148,14 @@ const RunEvents = ({ event, removeEvent }) => {
                 <div className="card-btn flex-col w-1/3 self-center  mx-4 ">
                     {user._id === event.user ? (
                         <button
-                            className=" hover:bg-blue-500 w-full h-10 mt-10 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 mt-10 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                             onClick={(e) => removeEvent(e, _id)}
                         >
                             Delete Event
                         </button>
                     ) : (
                         <button
-                            className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                             disabled
                             onClick={(e) => removeEvent(e, _id)}
                         >
@@ -161,14 +165,14 @@ const RunEvents = ({ event, removeEvent }) => {
 
                     {user._id === event.user ? (
                         <button
-                            className=" hover:bg-blue-500 w-full h-10 mt-4 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 mt-4 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                             onClick={(e) => handleOpen(_id)}
                         >
                             Update Event
                         </button>
                     ) : (
                         <button
-                            className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white"
+                            className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                             disabled
                             onClick={(e) => handleOpen(_id)}
                         >
@@ -176,7 +180,7 @@ const RunEvents = ({ event, removeEvent }) => {
                         </button>
                     )}
                     <button
-                        className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white"
+                        className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                         onClick={() => handleComment(_id)}
                     >
                         Add Comment

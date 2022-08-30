@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const initialState = {
     events: [],
-    comments: [],
+    // comments: [],
     isError: false,
     isLoading: false,
     isSuccess: false,
@@ -65,6 +65,7 @@ export const userUpdateEvent = createAsyncThunk('events/update', async (data, th
 )
 
 export const addComment = createAsyncThunk('events/comment', async (data, thunkAPI) => {
+    console.log("hitiit eslice", data)
     try
     {
         return await eventService.addComment(data)
@@ -148,23 +149,30 @@ export const eventSlice = createSlice({
                 state.isSuccess = true
                 state.events = action.payload
             }),
-            builder.addCase(addComment.pending, (state, action) => {
-                console.log("add comment pending", action)
-                state.isLoading = true
+            builder.addCase(userUpdateEvent.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.error.message
             }
             ),
-            builder.addCase(addComment.fulfilled, (state, action) => {
-                console.log("add comment fulfilled")
-                console.log("commentslice", action.payload)
-                state.isLoading = false
-                state.isSuccess = true
-                state.comments = action.payload
-            }),
-            builder.addCase(deleteComment.pending, (state) => {
+            builder.addCase(addComment.pending, (state, action) => {
                 state.isLoading = true
-            }),
+            }
+            ).
+                addCase(addComment.fulfilled, (state, action) => {
+                    state.isLoading = false
+                    state.isSuccess = true
+                    state.events.comments = action.payload
+                }).addCase(addComment.rejected, (state, action) => {
+                    state.isLoading = false
+                    state.isError = true
+                    state.message = action.error.message
+                }).
+                addCase(deleteComment.pending, (state) => {
+                    state.isLoading = true
+                }),
             builder.addCase(deleteComment.fulfilled, (state, action) => {
-                console.log("comment case", state.events)
+                console.log("comment case", state.event)
                 state.isLoading = false
                 state.isSuccess = true
                 state.comments = state.events.comments.filter(comment => comment.comments !== action.payload)

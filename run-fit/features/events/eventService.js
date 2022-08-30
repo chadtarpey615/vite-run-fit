@@ -61,10 +61,13 @@ const updateEvent = async (eventData, token) => {
 
 
 const addComment = async (data) => {
+    console.log("hitiit eservice", data)
+
     const comment = {
         name: data.name,
         comment: data.comment
     }
+
 
     try
     {
@@ -76,6 +79,9 @@ const addComment = async (data) => {
     }
 
 }
+
+
+
 
 const deleteComment = async (event, comment) => {
     console.log("eventService", event, comment)

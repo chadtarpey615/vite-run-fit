@@ -147,6 +147,7 @@ exports.addComment = async (req, res) => {
 
     })
 
+
     comment.save()
 
     const sess = await Mongoose.startSession()
@@ -155,6 +156,7 @@ exports.addComment = async (req, res) => {
     event.comments.push(comment)
     await event.save({ session: sess })
     await sess.commitTransaction()
+
 }
 
 
