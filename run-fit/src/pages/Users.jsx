@@ -33,32 +33,27 @@ const Users = () => {
                 </h1>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap justify-start py-5 my-4 ">
+            <div className=" flex flex-wrap justify-start py-5 my-4 px-5  ">
                 {users ? (
                     users.map((data) => (
-                        <div className="w-2/3 mx-auto border-2 my-5">
+                        <div className=" mx-auto border-2 my-5 px-5 ">
                             <Card>
-                                <div className="flex w-2/3 justify-start">
+                                <div>
                                     <img
-                                        className="rounded-circle shadow-xl w-1/3"
+                                        className="rounded-circle shadow-xl w-2/3"
                                         src={image}
                                         alt="Avatar"
                                     />
-                                    <div className="flex flex-col items-start w-1/4 ml-4">
-                                        {user.username === data.username ? (
-                                            <h1 className="mx-2 my-5 text-white text-2xl">
+                                    <div className="flex flex-col items-start w-1/3 ml-4">
+                                      
+                                        <h1 className="mx-2 my-5 text-white text-2xl">
                                                 {data.username}
-                                            </h1>
-                                        ) : (
-                                            <h1 className="mx-2 my-5 text-white text-2xl">
-                                                {data.username}
-                                            </h1>
-                                        )}
+                                        </h1>
 
-                                        <p className="text-white">
+                                        <p className="text-white w-40">
                                             Events: {data.events.length}
                                         </p>
-                                        <p className="text-white">
+                                        <p className="text-white w-40">
                                             Friends: {data.friends.length}
                                         </p>
                                         <button
@@ -67,8 +62,15 @@ const Users = () => {
                                                 addFriend(user, data)
                                             }
                                         >
-                                            <PeopleIcon />
-                                            Add Friends
+                                            {user.username === data.username ? (
+                                                ""
+                                            ) : (
+                                                <>
+                                                <PeopleIcon />
+                                               add friend 
+                                                </>
+                                            )}
+                                            
                                         </button>
                                     </div>
                                 </div>

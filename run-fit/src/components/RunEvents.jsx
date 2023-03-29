@@ -114,6 +114,7 @@ const RunEvents = ({ event, removeEvent }) => {
         return <Loading />;
     }
 
+
     return (
         <Card>
             <div className="flex w-full">
