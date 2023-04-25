@@ -8,6 +8,7 @@ import PeopleIcon from "@mui/icons-material/People";
 
 const Users = () => {
     const { user, users, isLoading } = useSelector((state) => state.user);
+    console.log("user", user)
     const dispatch = useDispatch();
 
     const getAllUsers = async () => {
@@ -15,7 +16,8 @@ const Users = () => {
     };
 
     const addFriend = async (friend, data) => {
-        console.log("friends", data);
+        console.log("friends", friend, data);
+
         await dispatch(addFriend({ friend, data }));
     };
 
@@ -26,62 +28,45 @@ const Users = () => {
         return <Spinner />;
     }
     return (
-        <div>
-            <div className="flex justify-center text-white my-5">
-                <h1 className="text-5xl font-bold animate-bounce">
-                    Run Fit Users
-                </h1>
-            </div>
-
-            <div className="relative flex h-auto  justify-center overflow-hidden py-6 sm:py-12 ">
-                {users ? (
-                    users.map((data) => (
-                        <div className=" group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">
-                            <Card>
-                                <div>
-                                    <img
-                                        className="absolute top-5 left-2 z-0 h-20 w-20 rounded-full bg-sky-500 "
-                                        src={image}
-                                        alt="Avatar"
-                                    />
-                                    <div className="relative top-2  space-x-4 flex flex-col items-start w-1/3 ml-4">
-                                      
-                                        <h1 className="space-y-6 pt-5 text-base leading-7 underline text-gray-600 transition-all duration-300 group-hover:text-blue">
-                                                {data.username}
-                                        </h1>
-
-                                        <p className="space-y-4 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-blue">
-                                            Events: {data.events.length}
-                                        </p>
-                                        <p className="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-blue">
-                                            Friends: {data.friends.length}
-                                        </p>
-                                        <button
-                                            className="space-y-6 pt-5 text-base leading-7 text-gray-600 transition-all duration-300 group-hover:text-blue"
-                                            onClick={() =>
-                                                addFriend(user, data)
-                                            }
-                                        >
-                                            {user.username === data.username ? (
-                                                <h4>You</h4>
-                                            ) : (
-                                                <>
-                                                <PeopleIcon />
-                                               <p>add friend</p> 
-                                                </>
-                                            )}
-                                            
-                                        </button>
-                                    </div>
-                                </div>
-                            </Card>
+        <>
+         {/* header  */}
+        <div className="flex flex-col items-center py-2">
+            <h1 className="text-7xl text-white">Users</h1>
+         </div>  
+            {/* card with user info */}
+            <div className="flex flex-wrap items-start min-h-screen justify-center py-5 ">
+                {users.map((users) => (
+                    <Card key={users._id}>
+                        <div className="flex flex-col items-center justify-center">
+                            <img
+                                className="w-24 h-24 rounded-full"
+                                src={image}
+                                />
+                            <h1 className="text-xl font-bold">{users.username}</h1>
+                            <p className="text-sm text-gray-500">{users.email}</p>
+                            <p className="text-sm text-gray-500">Events: {users.events.length}</p>
+                            <p className="text-sm text-gray-500">Friends: {users.friends.length}</p>
+                            {user._id === users._id ? (
+                            <button
+                             disabled
+                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                You
+                            </button>
+                            ):(
+                            <button
+                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                             onClick={() => addFriend(users._id, user)}
+                            >
+                                Add Friend
+                            </button>
+                            )} 
                         </div>
-                    ))
-                ) : (
-                    <h1 className="text-white">No Users</h1>
-                )}
-            </div>
-        </div>
+                    </Card>      
+                ))}
+           </div>
+    
+        </>
     );
 };
 
@@ -109,3 +94,8 @@ export default Users;
     </div>
   </div>
 </div> */}
+
+
+
+
+                        // <div className=" group relative cursor-pointer overflow-hidden bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg sm:px-10">

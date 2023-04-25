@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Users from "./pages/Users";
 import Events from "./pages/Events";
 import Calendars from "./pages/Calendars";
+import Footer from "./components/Footer";
 
 import "./App.css";
 import Navbar from "./components/Navbar";
@@ -27,6 +28,7 @@ function App() {
                     </Routes>
                 </div>
             </Router>
+            <Footer />
         </>
     );
 }
