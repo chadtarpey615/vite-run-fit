@@ -97,44 +97,33 @@ exports.getAllUsers = async (req, res) => {
 
 
 exports.addFriend = async (req, res) => {
-    const { id, friend } = req.body;
-
-    let user
-    let newFriend
+    const { id, friend } = req.params;
+    console.log(id, friend)
 
     try
     {
-        newFriend = await User.findById(friend)
-        newFriend = await new Friend({
-            _id: newFriend._id,
-            email: newFriend.email,
-            username: newFriend.username,
-        })
+        const friendId = await User.findById(friend);
+        console.log("User controller hit add friend", friend)
 
-        newFriend.save()
-        user = await User.findById(id).populate("friends")
+        if (!friend)
+        {
+            return res.status(404).json({ message: 'Friend not found' });
+        }
 
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { $push: { friends: friendId } },
+            { new: true }
+        )
+
+        res.status(200).json(updatedUser);
     } catch (error)
     {
-        console.log(error.message)
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
+};
 
-    try
-    {
-
-        const sess = await Mongoose.startSession()
-        sess.startTransaction()
-        await user.save({ session: sess })
-        user.friends.push(newFriend)
-        await user.save({ session: sess })
-        await sess.commitTransaction()
-
-    } catch (error) 
-    {
-        console.log(error)
-    }
-
-}
 
 exports.getFriendsForUser = async (req, res, next) => {
     console.log("usercont")
@@ -157,3 +146,38 @@ exports.getFriendsForUser = async (req, res, next) => {
     next()
 
 }
+
+
+
+
+// try
+// {
+//     newFriend = await User.findById(friend)
+//     newFriend = await new Friend({
+//         _id: newFriend._id,
+//         email: newFriend.email,
+//         username: newFriend.username,
+//     })
+
+//     newFriend.save()
+//     user = await User.findById(id).populate("friends")
+
+// } catch (error)
+// {
+//     console.log(error.message)
+// }
+
+// try
+// {
+
+//     const sess = await Mongoose.startSession()
+//     sess.startTransaction()
+//     await user.save({ session: sess })
+//     user.friends.push(newFriend)
+//     await user.save({ session: sess })
+//     await sess.commitTransaction()
+
+// } catch (error) 
+// {
+//     console.log(error)
+// }

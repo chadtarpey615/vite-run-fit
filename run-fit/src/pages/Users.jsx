@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../features/auth/authSlice";
+import { getUsers, addNewFriend } from "../../features/auth/authSlice";
 import Spinner from "../components/Spinner";
 import Card from "../components/Card";
 import image from "..//images/avatar.jpeg";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PeopleIcon from "@mui/icons-material/People";
 
 const Users = () => {
     const { user, users, isLoading } = useSelector((state) => state.user);
-    console.log("user", user)
+    // console.log("user", user)
     const dispatch = useDispatch();
 
     const getAllUsers = async () => {
@@ -16,14 +18,15 @@ const Users = () => {
     };
 
     const addFriend = async (friend, data) => {
-        console.log("friends", friend, data);
-
-        await dispatch(addFriend({ friend, data }));
+       console.log("breakpoint", friend, data)
+       await dispatch(addNewFriend({ friend, data }));
+       toast.success('Friend added successfully')
     };
 
     useEffect(() => {
         getAllUsers();
     }, []);
+
     if (isLoading) {
         return <Spinner />;
     }
@@ -35,34 +38,29 @@ const Users = () => {
          </div>  
             {/* card with user info */}
             <div className="flex flex-wrap items-start min-h-screen justify-center py-5 ">
-                {users.map((users) => (
-                    <Card key={users._id}>
-                        <div className="flex flex-col items-center justify-center">
-                            <img
-                                className="w-24 h-24 rounded-full"
-                                src={image}
-                                />
-                            <h1 className="text-xl font-bold">{users.username}</h1>
-                            <p className="text-sm text-gray-500">{users.email}</p>
-                            <p className="text-sm text-gray-500">Events: {users.events.length}</p>
-                            <p className="text-sm text-gray-500">Friends: {users.friends.length}</p>
-                            {user._id === users._id ? (
-                            <button
-                             disabled
-                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                You
-                            </button>
-                            ):(
-                            <button
-                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                             onClick={() => addFriend(users._id, user)}
-                            >
-                                Add Friend
-                            </button>
-                            )} 
-                        </div>
-                    </Card>      
+              {users.map((users) => (
+               <Card key={users._id}>
+                <div className="flex flex-col items-center justify-center">
+                 <img className="w-24 h-24 rounded-full" src={image} />
+                 <h1 className="text-xl font-bold">{users.username}</h1>
+                 <p className="text-sm text-gray-500">{users.email}</p>
+                 <p className="text-sm text-gray-500">Events: {users.events.length}</p>
+                 <p className="text-sm text-gray-500">Friends: {users.friends.length}</p>
+                 {user._id === users._id ? (
+                 <button disabled 
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        You
+                 </button>
+                  ) : (
+                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+                   onClick={() => addFriend(users._id, user)}>
+                        Add Friend
+                 </button>
+                    )}
+               </div>
+               <ToastContainer />
+              </Card>
+
                 ))}
            </div>
     

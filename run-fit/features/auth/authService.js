@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from 'react-toastify'
 const API_URL = "http://localhost:3003/api/users/";
 
 const registerUser = async (userData) => {
@@ -15,7 +15,6 @@ const registerUser = async (userData) => {
 
 const loginUser = async (userData) => {
     const response = await axios.post(API_URL + "login", userData);
-
     if (response.data)
     {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -33,17 +32,17 @@ const getAllUsers = async () => {
 }
 
 const addNewFriend = async (friend, data) => {
-    console.log("friend", friend, data._id)
-
+    console.log("authserv friend", friend, data._id)
     try
     {
-        const response = axios.post(`/api/users/${friend._id}/${data._id}`)
+        const response = await axios.post(`${API_URL}${data._id}/${friend}`)
 
         return response.data
     } catch (error)
     {
-
+        console.log(error)
     }
+
 }
 
 const getUserFriends = async (id) => {

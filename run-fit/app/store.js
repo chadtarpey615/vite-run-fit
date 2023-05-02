@@ -1,6 +1,4 @@
-
-
-
+// Desc: Redux store for the app
 import { configureStore } from "@reduxjs/toolkit";
 import userAuthReducer from "../features/auth/authSlice";
 import eventReducer from "../features/events/eventSlice";
