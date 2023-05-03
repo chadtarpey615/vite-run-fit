@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Mongoose = require('mongoose');
 
+
 exports.createUser = async (req, res) => {
     console.log("User controller hit")
     const { username, email, password } = req.body;
@@ -71,6 +72,7 @@ exports.userLogin = async (req, res) => {
             _id: user._id,
             username: user.username,
             email: user.email,
+            friends: [user.friends],
             token: generateToken(user._id)
         })
     } catch (error)
@@ -97,30 +99,32 @@ exports.getAllUsers = async (req, res) => {
 
 
 exports.addFriend = async (req, res) => {
-    const { id, friend } = req.params;
-    console.log(id, friend)
+    const { id, friend } = req.params
 
     try
     {
-        const friendId = await User.findById(friend);
-        console.log("User controller hit add friend", friend)
+        const friendId = await User.findById(friend)
 
-        if (!friend)
+        if (!friendId)
         {
-            return res.status(404).json({ message: 'Friend not found' });
+            return res.status(400).json({ msg: 'Friend does not exist' });
         }
 
-        const updatedUser = await User.findByIdAndUpdate(
-            id,
-            { $push: { friends: friendId } },
-            { new: true }
-        )
+        const user = await User.findById(id)
 
-        res.status(200).json(updatedUser);
+        if (user.friends.includes(friendId._id))
+        {
+            return res.status(400).json({ msg: 'Friend already added' });
+
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(id, { $push: { friends: { id: friendId._id, username: friendId.username } } }, { new: true })
+        res.status(200).json(updatedUser)
     } catch (error)
     {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
+
     }
 };
 
@@ -146,38 +150,3 @@ exports.getFriendsForUser = async (req, res, next) => {
     next()
 
 }
-
-
-
-
-// try
-// {
-//     newFriend = await User.findById(friend)
-//     newFriend = await new Friend({
-//         _id: newFriend._id,
-//         email: newFriend.email,
-//         username: newFriend.username,
-//     })
-
-//     newFriend.save()
-//     user = await User.findById(id).populate("friends")
-
-// } catch (error)
-// {
-//     console.log(error.message)
-// }
-
-// try
-// {
-
-//     const sess = await Mongoose.startSession()
-//     sess.startTransaction()
-//     await user.save({ session: sess })
-//     user.friends.push(newFriend)
-//     await user.save({ session: sess })
-//     await sess.commitTransaction()
-
-// } catch (error) 
-// {
-//     console.log(error)
-// }

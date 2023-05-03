@@ -20,7 +20,12 @@ const Users = () => {
     const addFriend = async (friend, data) => {
        console.log("breakpoint", friend, data)
        await dispatch(addNewFriend({ friend, data }));
-       toast.success('Friend added successfully')
+       // add toast for success and error
+       if (addNewFriend) {
+           toast.success("Friend Added!");
+       } else {   
+            toast.error("Friend Not Added!");
+        }
     };
 
     useEffect(() => {

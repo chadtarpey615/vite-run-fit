@@ -17,7 +17,7 @@ const Navbar = () => {
     // for future when user has friends to load
     useEffect(() => {
         if (user) {
-            console.log(user);
+            console.log("user nav", user);
             // dispatch(getUserFriends(user._id))
         }
     }, []);
@@ -31,7 +31,11 @@ const Navbar = () => {
     };
 
     const handleOpen = () => {
-        setOpen(!open);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     const style = {
@@ -75,6 +79,9 @@ const Navbar = () => {
                             <Link className="text-white" to="/events">
                                 All Events
                             </Link>
+                        </li>
+                           <li className="mx-2">
+                            <button className="text-white" onClick={handleOpen}>Friends</button>
                         </li>
                     </ul>
                 </div>
@@ -174,6 +181,13 @@ const Navbar = () => {
                             </Link>
                         </li>
                     </ul>
+                     <ul>
+                        <li className="mx-2">
+                            <Link className="text-white" to="/events">
+                                Friends
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
             )}
 
@@ -189,8 +203,8 @@ const Navbar = () => {
                             <Stack spacing={2}>
                                 <p className="text-info">Friends</p>
                                 <hr />
-                                {friends.map((friend) => (
-                                    <h6 className="text-white">{friend}</h6>
+                                {user.friends.map((friend) => (
+                                    <h6 className="text-white">{friend.username}</h6>
                                 ))}
                             </Stack>
                         </Box>
