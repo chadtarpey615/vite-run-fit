@@ -97,6 +97,8 @@ const RunEvents = ({ event, removeEvent }) => {
     };
 
     const { title, date, distance, _id, creator } = event;
+    const formattedDate = new Date(date).toDateString();
+   console.log("date", formattedDate)
 
     const style = {
         position: "absolute",
@@ -114,40 +116,44 @@ const RunEvents = ({ event, removeEvent }) => {
         return <Loading />;
     }
 
+function renderComment(comment) {
+    const { name, comment: text } = comment;
+     if (text.length  < 3) {
+        return (
+      <div>
+        <p className="text-sm font-bold text-white">
+            {name} :
+            <span className="text-sm">
+            {comment}
+            </span>
+        </p>
+        <DeleteIcon onClick={(e) => eventDeleteComment(e, event, comment._id)} />
+        <Divider />
+        </div>
+        )
+     }  else {
+        return <p> load more...</p>
+     }     
+}
+
+
+
 
     return (
         <Card>
-            <div className="flex w-full">
-                <div className="flex flex-col text-white space-x-4 pb-4">
-                    <h1 className="px-4 my-4 text-2xl font-bold underline">
-                        Event Title: <span>{title}</span>
-                    </h1>
-                    <h4 className="font-bold">Date: {date}</h4>
-                    <h4 className="font-bold">Distance: {distance}</h4>
-                    <h4 className="font-bold">Created By: {creator}</h4>
-                    <DirectionsRun />
-
-                    <h3 className="underline font-bold mt-4">Comments</h3>
-                    {event.comments.map((comment) => (
-                        <div>
-                            <p className="text-sm font-bold text-white">
-                                {comment.name} :
-                                <span className="text-sm">
-                                    {comment.comment}
-                                </span>
-                            </p>
-                            <DeleteIcon
-                                onClick={(e) =>
-                                    eventDeleteComment(e, event, comment._id)
-                                }
-                            />
-                            <Divider />
-                        </div>
-                    ))}
-                </div>
-
-                <div className="card-btn flex-col w-1/3 self-center  mx-4 ">
-                    {user._id === event.user ? (
+            <div className="max-w-sm rounded overflow-hidden shadow-lg">
+              <img className="w-full" src="https://source.unsplash.com/random/400x200" alt="Card image" />
+               <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2 text-white underline">{title}</div>
+                  <h4 className="font-bold">Date: {formattedDate}</h4>
+                  <h4 className="font-bold">Distance: {distance}</h4>
+                  <h4 className="font-bold">Created By: {creator}</h4>
+                  <DirectionsRun />
+                  <h3 className="underline font-bold mt-4">Comments</h3>
+                  {event.comments.map(renderComment)}
+             </div>
+         <div className="px-6 py-4">
+           {user._id === event.user ? (
                         <button
                             className=" hover:bg-blue-500 w-full h-10 mt-10 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                             onClick={(e) => removeEvent(e, _id)}
@@ -163,8 +169,7 @@ const RunEvents = ({ event, removeEvent }) => {
                             Not Authorized to Delete
                         </button>
                     )}
-
-                    {user._id === event.user ? (
+                     {user._id === event.user ? (
                         <button
                             className=" hover:bg-blue-500 w-full h-10 mt-4 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                             onClick={(e) => handleOpen(_id)}
@@ -180,7 +185,7 @@ const RunEvents = ({ event, removeEvent }) => {
                             Not Authorized to Update
                         </button>
                     )}
-                    <button
+                          <button
                         className=" hover:bg-blue-500 w-full h-10 my-4 rounded bg-blue-700 text-white text-sm md:text-md lg:text-lg"
                         onClick={() => handleComment(_id)}
                     >
@@ -266,8 +271,10 @@ const RunEvents = ({ event, removeEvent }) => {
                         </Modal>
                     )}
                 </div>
-            </div>
-        </Card>
+            </div> 
+  </Card>
+
+
     );
 };
 

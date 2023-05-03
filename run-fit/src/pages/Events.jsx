@@ -31,7 +31,7 @@ const Events = () => {
 
             <div className="mt-16 flex flex-col md:flex-row">
                 {events?.map((event) => (
-                    <Suspense>
+                    <Suspense key={event.id}>
                         <RunEvents event={event} removeEvent={removeEvent} />
                     </Suspense>
                 ))}

@@ -183,9 +183,9 @@ const Navbar = () => {
                     </ul>
                      <ul>
                         <li className="mx-2">
-                            <Link className="text-white" to="/events">
-                                Friends
-                            </Link>
+                             <li className="mx-2">
+                            <button className="text-white" onClick={handleOpen}>Friends</button>
+                        </li>
                         </li>
                     </ul>
                 </div>
